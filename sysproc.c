@@ -20,6 +20,21 @@ sys_exit(void)
   return 0;  // not reached
 }
 
+//lab1 START
+int
+sys_exitS(void)
+{
+  int exit_Status;
+  if(argint(0, &exit_Status) < 0){
+    exitS(-1);
+    return 0;
+   }
+  exitS(exit_Status);
+  return 0;
+}
+
+//lab1 END
+
 int
 sys_wait(void)
 {
