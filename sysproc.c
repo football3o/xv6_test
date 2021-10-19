@@ -20,12 +20,45 @@ sys_exit(void)
   return 0;  // not reached
 }
 
+//lab1 START
+int
+sys_exitS(void)
+{
+  int exit_Status;
+  if(argint(0, &exit_Status) < 0){
+    exitS(-1);
+    return 0;
+   }
+  exitS(exit_Status);
+  return 0;
+}
+
+
+
 int
 sys_wait(void)
 {
-  return wait();
+  int* status;
+  if(argptr(0, ((char**)&status), sizeof(int)) < 0)
+    return wait((void*)0);
+
+  return wait(status);
 }
 
+int
+sys_waitpid(void)
+{
+  int pid;
+  char* status;
+  if(argint(0, &pid) < 0){
+    pid = -1;
+  }
+  if(argptr(1, &status, sizeof(int)) < 0)
+    return waitpid(pid,(int*)0,1);
+  return waitpid(pid,(int*)status,1);
+}
+
+//lab1 END
 int
 sys_kill(void)
 {
