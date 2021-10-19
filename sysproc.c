@@ -33,14 +33,32 @@ sys_exitS(void)
   return 0;
 }
 
-//lab1 END
+
 
 int
 sys_wait(void)
 {
-  return wait();
+  int* status;
+  if(argptr(0, ((char**)&status), sizeof(int)) < 0)
+    return wait((void*)0);
+
+  return wait(status);
 }
 
+int
+sys_waitpid(void)
+{
+  int pid;
+  char* status;
+  if(argint(0, &pid) < 0){
+    pid = -1;
+  }
+  if(argptr(1, &status, sizeof(int)) < 0)
+    return waitpid(pid,(int*)0,1);
+  return waitpid(pid,(int*)status,1);
+}
+
+//lab1 END
 int
 sys_kill(void)
 {
